@@ -1,5 +1,5 @@
 import pygame
-from personagens import Person  # Certifique-se de que Person (e suas subclasses) estão implementados
+from personagens import Person 
 
 class ColisoesCombate:
     def __init__(self, largura_tela, altura_tela):
@@ -19,7 +19,7 @@ class ColisoesCombate:
     def aplicar_dano(self, atacante, defensor, tela):
         """
         Itera sobre os projéteis disparados pelo atacante e, se algum colidir com o defensor,
-        aplica o dano (normal ou especial) e remove o projétil.
+        aplica o dano  e remove o projétil.
         """
         if isinstance(atacante, Person) and isinstance(defensor, Person):
             for proj in list(self.projeteis):  # Itera sobre uma cópia para evitar problemas ao remover itens
@@ -51,7 +51,7 @@ class ColisoesCombate:
     def atacar_normal(self, atacante, defensor, tela):
         """
         Se houver ki suficiente, realiza o ataque normal:
-         - Cria o projétil normal (usando, se disponível, o primeiro sprite de 'sprites_ataque').
+         - Cria o projétil normal.
          - Em seguida, verifica a colisão e aplica o dano.
         """
         if atacante.ki >= 1:
@@ -67,9 +67,8 @@ class ColisoesCombate:
     def atacar_especial(self, atacante, defensor, tela):
         """
         Se houver ki suficiente, realiza o ataque especial:
-         - Cria o projétil especial (usando a imagem 'projetil_img' do personagem, que vem de personagens.py).
-         - Em seguida, verifica a colisão (usando a hitbox do projétil, do mesmo tamanho da imagem, dobrada)
-           e aplica o dano.
+         - Cria o projétil especial.
+         - Em seguida, verifica a colisão ee aplica o dano
         """
         if atacante.ki >= 20:
             atacante.is_attacking = True
@@ -136,26 +135,18 @@ class ColisoesCombate:
     def criar_ataque(self, atacante, tipo='ataque'):
         """
         Cria o projétil do ataque, posicionando-o no centro do atacante.
-        - Para 'ataque' (normal): utiliza o primeiro sprite de 'sprites_ataque' se disponível;
-          caso contrário, cria um projétil dummy (círculo vermelho).
-        - Para 'especial': utiliza a imagem em 'projetil_img' (definida em personagens.py);
-          caso não exista, cria um projétil dummy (círculo azul).
-        A hitbox é definida com as mesmas dimensões da imagem do projétil, e para ataques especiais
-        a mesma é inflada (dobrada) para abranger toda a imagem.
         """
         ataque = pygame.sprite.Sprite()
         if tipo == 'ataque':
             if hasattr(atacante, 'sprites_ataque') and atacante.sprites_ataque:
                 ataque.image = atacante.sprites_ataque[0]
             else:
-                # Projétil dummy vermelho 50x50
                 ataque.image = pygame.Surface((50, 50), pygame.SRCALPHA)
                 pygame.draw.circle(ataque.image, (255, 0, 0), (25, 25), 25)
         elif tipo == 'especial':
             if hasattr(atacante, 'projetil_img') and atacante.projetil_img:
                 ataque.image = atacante.projetil_img
-            else:
-                # Projétil dummy azul 50x50
+            else:         
                 ataque.image = pygame.Surface((50, 50), pygame.SRCALPHA)
                 pygame.draw.circle(ataque.image, (0, 0, 255), (25, 25), 25)
         else:

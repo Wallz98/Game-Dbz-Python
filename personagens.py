@@ -13,6 +13,9 @@ def carregar_sprites(pasta, tamanho):
             sprites.append(imagem_redimensionada)
     return sprites
 
+# Obtém o caminho base do jogo
+game_base_path = os.path.dirname(os.path.abspath(__file__))
+
 # Classe base Person (herda de pygame.sprite.Sprite)
 class Person(pygame.sprite.Sprite):
     def __init__(self, x, y, nome, dano_normal, dano_especial, vida_max, ki_max, controle, is_facing_right=True):
@@ -194,8 +197,7 @@ class Person(pygame.sprite.Sprite):
         """
         Exibe o projétil do ataque especial somente se:
           - o ataque especial estiver ativo,
-          - existir uma imagem de projétil, e
-          - a animação especial tiver atingido (ou ultrapassado) o último frame.
+          - a animação especial quando tiver atingido o último frame.
         """
         if self.ataque_especial_ativo and self.projetil_img:
             if self.estado == 'especial' and self.animacao_index >= len(self.sprites_especial) - 1:
@@ -221,10 +223,9 @@ class Person(pygame.sprite.Sprite):
 # Classe Vegeta
 class Vegeta(Person):
     def __init__(self, x, y, controle='setas', is_facing_right=True):
-        super().__init__(x, y, nome="Vegeta", dano_normal=1, dano_especial=12,
-                         vida_max=150, ki_max=100, controle=controle, is_facing_right=is_facing_right)
+        super().__init__(x, y, "Vegeta", 1, 12, 150, 100, controle, is_facing_right)
         tamanho_desejado = (100, 100)
-        base_path = r'C:\Users\walla\Desktop\Faculdade\2024_2\Programação modular\TP1\Sprites\vegeta_ssj2\vegeta_ssj2'
+        base_path = os.path.join(game_base_path, 'Sprites', 'vegeta_ssj2', 'vegeta_ssj2')
         self.sprites_andar = carregar_sprites(os.path.join(base_path, 'Movimentacao'), tamanho_desejado)
         self.sprites_voar = carregar_sprites(os.path.join(base_path, 'Voando'), tamanho_desejado)
         self.sprites_pousar = carregar_sprites(os.path.join(base_path, 'pousando'), tamanho_desejado)
@@ -233,20 +234,16 @@ class Vegeta(Person):
         self.sprites_vitoria = carregar_sprites(os.path.join(base_path, 'vitoria'), tamanho_desejado)
         self.normal = carregar_sprites(os.path.join(base_path, 'normal'), tamanho_desejado)
         
-        # Carrega e redimensiona o projétil (ataque especial) de Vegeta
-        self.projetil_img = pygame.image.load(r"C:\Users\walla\Desktop\Faculdade\2024_2\Programação modular\TP1\Sprites\vegeta_ssj2\vegeta_ssj2\Final-Flash.png").convert_alpha()
-        scale_factor = 0.5
-        width = int(self.projetil_img.get_width() * scale_factor)
-        height = int(self.projetil_img.get_height() * scale_factor)
-        self.projetil_img = pygame.transform.scale(self.projetil_img, (width, height))
+        self.projetil_img = pygame.image.load(os.path.join(base_path, 'Final-Flash.png')).convert_alpha()
+        self.projetil_img = pygame.transform.scale(self.projetil_img, (int(self.projetil_img.get_width() * 0.5),
+                                                                       int(self.projetil_img.get_height() * 0.5)))
 
 # Classe Goku
 class Goku(Person):
     def __init__(self, x, y, controle='wasd', is_facing_right=True):
-        super().__init__(x, y, nome="Goku", dano_normal=1, dano_especial=12,
-                         vida_max=150, ki_max=100, controle=controle, is_facing_right=is_facing_right)
+        super().__init__(x, y, "Goku", 1, 12, 150, 100, controle, is_facing_right)
         tamanho_desejado = (100, 100)
-        base_path = r'C:\Users\walla\Desktop\Faculdade\2024_2\Programação modular\TP1\Sprites\Goku_ssj2'
+        base_path = os.path.join(game_base_path, 'Sprites', 'Goku_ssj2')
         self.sprites_andar = carregar_sprites(os.path.join(base_path, 'andando'), tamanho_desejado)
         self.sprites_voar = carregar_sprites(os.path.join(base_path, 'voando'), tamanho_desejado)
         self.sprites_pousar = carregar_sprites(os.path.join(base_path, 'pousando'), tamanho_desejado)
@@ -254,18 +251,7 @@ class Goku(Person):
         self.sprites_especial = carregar_sprites(os.path.join(base_path, 'especial'), tamanho_desejado)
         self.sprites_vitoria = carregar_sprites(os.path.join(base_path, 'vitoria'), tamanho_desejado)
         self.normal = carregar_sprites(os.path.join(base_path, 'normal'), tamanho_desejado)
-        
-        # Carrega e redimensiona o projétil (Kamehameha) de Goku
-        self.projetil_img = pygame.image.load(r'C:\Users\walla\Desktop\Faculdade\2024_2\Programação modular\TP1\Sprites\Goku_ssj2\kamehameha.png').convert_alpha()
-        scale_factor = 0.5
-        width = int(self.projetil_img.get_width() * scale_factor)
-        height = int(self.projetil_img.get_height() * scale_factor)
-        self.projetil_img = pygame.transform.scale(self.projetil_img, (width, height))
-        
-        # Aumenta a duração do ataque especial para Goku, garantindo que a animação tenha tempo de exibir o projétil
+        self.projetil_img = pygame.image.load(os.path.join(base_path, 'kamehameha.png')).convert_alpha()
+        self.projetil_img = pygame.transform.scale(self.projetil_img, (int(self.projetil_img.get_width() * 0.5),
+                                                                       int(self.projetil_img.get_height() * 0.5)))
         self.tempo_ataque_duracao = 800
-        
-        self.sprites = self.normal
-        self.image = self.sprites[0]
-        self.rect = self.image.get_rect()
-        self.rect.topleft = (x, y)
