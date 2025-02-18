@@ -3,9 +3,12 @@ import pygame
 from pygame.locals import *
 
 # Função para carregar imagens de uma pasta
+
+
 def carregar_sprites(pasta, tamanho):
     sprites = []
-    for arquivo in sorted(os.listdir(pasta)):  # Ordena para garantir a sequência correta
+    # Ordena para garantir a sequência correta
+    for arquivo in sorted(os.listdir(pasta)):
         if arquivo.endswith('.png'):
             caminho_completo = os.path.join(pasta, arquivo)
             imagem = pygame.image.load(caminho_completo).convert_alpha()
@@ -13,10 +16,13 @@ def carregar_sprites(pasta, tamanho):
             sprites.append(imagem_redimensionada)
     return sprites
 
+
 # Obtém o caminho base do jogo
 game_base_path = os.path.dirname(os.path.abspath(__file__))
 
 # Classe base Person (herda de pygame.sprite.Sprite)
+
+
 class Person(pygame.sprite.Sprite):
     def __init__(self, x, y, nome, dano_normal, dano_especial, vida_max, ki_max, controle, is_facing_right=True):
         super().__init__()
@@ -46,7 +52,7 @@ class Person(pygame.sprite.Sprite):
         self.projetil_img = None
         self.tempo_ataque = 0
         # Duração do ataque especial (deve ser compatível com o tempo necessário para a animação especial)
-        self.tempo_ataque_duracao = 500  
+        self.tempo_ataque_duracao = 500
 
     def aplicar_dano(self, atacante, defensor):
         if atacante.is_attacking:
@@ -58,15 +64,18 @@ class Person(pygame.sprite.Sprite):
 
     def atualizar_barras(self, tela):
         # Barra de vida
-        pygame.draw.rect(tela, (255, 0, 0), (self.barra_vida_pos[0], self.barra_vida_pos[1], 200, 20))
-        pygame.draw.rect(tela, (0, 255, 0), 
+        pygame.draw.rect(
+            tela, (255, 0, 0), (self.barra_vida_pos[0], self.barra_vida_pos[1], 200, 20))
+        pygame.draw.rect(tela, (0, 255, 0),
                          (self.barra_vida_pos[0], self.barra_vida_pos[1], 200 * (self.vida / self.vida_max), 20))
         font = pygame.font.SysFont('Arial', 14)
         texto_nome = font.render(self.nome, True, (255, 255, 255))
-        tela.blit(texto_nome, (self.barra_vida_pos[0] + 100 - texto_nome.get_width() // 2, self.barra_vida_pos[1] + 2))
+        tela.blit(texto_nome, (self.barra_vida_pos[0] + 100 -
+                  texto_nome.get_width() // 2, self.barra_vida_pos[1] + 2))
         # Barra de ki
-        pygame.draw.rect(tela, (0, 0, 0), (self.barra_ki_pos[0], self.barra_ki_pos[1], 200, 20))
-        pygame.draw.rect(tela, (255, 255, 0), 
+        pygame.draw.rect(
+            tela, (0, 0, 0), (self.barra_ki_pos[0], self.barra_ki_pos[1], 200, 20))
+        pygame.draw.rect(tela, (255, 255, 0),
                          (self.barra_ki_pos[0], self.barra_ki_pos[1], 200 * (self.ki / self.ki_max), 20))
 
     def update(self, keys, tempo_decorrido, tela):
@@ -182,7 +191,8 @@ class Person(pygame.sprite.Sprite):
                     self.animacao_index = 0
 
         # Define a imagem atual com base no frame da animação
-        self.image = self.sprites[min(self.animacao_index, len(self.sprites) - 1)]
+        self.image = self.sprites[min(
+            self.animacao_index, len(self.sprites) - 1)]
         if not self.is_facing_right:
             self.image = pygame.transform.flip(self.image, True, False)
 
@@ -205,9 +215,11 @@ class Person(pygame.sprite.Sprite):
                     pos_x = self.rect.right - 6
                 else:
                     pos_x = self.rect.left - self.projetil_img.get_width() + 10
-                pos_y = self.rect.y + (self.rect.height - self.projetil_img.get_height()) // 2 - 5
+                pos_y = self.rect.y + \
+                    (self.rect.height - self.projetil_img.get_height()) // 2 - 5
                 if not self.is_facing_right:
-                    proj_img = pygame.transform.flip(self.projetil_img, True, False)
+                    proj_img = pygame.transform.flip(
+                        self.projetil_img, True, False)
                     tela.blit(proj_img, (pos_x, pos_y))
                 else:
                     tela.blit(self.projetil_img, (pos_x, pos_y))
@@ -221,37 +233,106 @@ class Person(pygame.sprite.Sprite):
         self.animacao_index = 0
 
 # Classe Vegeta
+
+
 class Vegeta(Person):
     def __init__(self, x, y, controle='setas', is_facing_right=True):
         super().__init__(x, y, "Vegeta", 1, 12, 150, 100, controle, is_facing_right)
         tamanho_desejado = (100, 100)
-        base_path = os.path.join(game_base_path, 'Sprites', 'vegeta_ssj2', 'vegeta_ssj2')
-        self.sprites_andar = carregar_sprites(os.path.join(base_path, 'Movimentacao'), tamanho_desejado)
-        self.sprites_voar = carregar_sprites(os.path.join(base_path, 'Voando'), tamanho_desejado)
-        self.sprites_pousar = carregar_sprites(os.path.join(base_path, 'pousando'), tamanho_desejado)
-        self.sprites_ataque = carregar_sprites(os.path.join(base_path, 'atacando'), tamanho_desejado)
-        self.sprites_especial = carregar_sprites(os.path.join(base_path, 'especial'), tamanho_desejado)
-        self.sprites_vitoria = carregar_sprites(os.path.join(base_path, 'vitoria'), tamanho_desejado)
-        self.normal = carregar_sprites(os.path.join(base_path, 'normal'), tamanho_desejado)
-        
-        self.projetil_img = pygame.image.load(os.path.join(base_path, 'Final-Flash.png')).convert_alpha()
+        base_path = os.path.join(
+            game_base_path, 'Sprites', 'vegeta_ssj2', 'vegeta_ssj2')
+        self.sprites_andar = carregar_sprites(os.path.join(
+            base_path, 'Movimentacao'), tamanho_desejado)
+        self.sprites_voar = carregar_sprites(
+            os.path.join(base_path, 'Voando'), tamanho_desejado)
+        self.sprites_pousar = carregar_sprites(
+            os.path.join(base_path, 'pousando'), tamanho_desejado)
+        self.sprites_ataque = carregar_sprites(
+            os.path.join(base_path, 'atacando'), tamanho_desejado)
+        self.sprites_especial = carregar_sprites(
+            os.path.join(base_path, 'especial'), tamanho_desejado)
+        self.sprites_vitoria = carregar_sprites(
+            os.path.join(base_path, 'vitoria'), tamanho_desejado)
+        self.normal = carregar_sprites(os.path.join(
+            base_path, 'normal'), tamanho_desejado)
+
+        self.projetil_img = pygame.image.load(os.path.join(
+            base_path, 'Final-Flash.png')).convert_alpha()
         self.projetil_img = pygame.transform.scale(self.projetil_img, (int(self.projetil_img.get_width() * 0.5),
                                                                        int(self.projetil_img.get_height() * 0.5)))
 
 # Classe Goku
+
+
 class Goku(Person):
     def __init__(self, x, y, controle='wasd', is_facing_right=True):
         super().__init__(x, y, "Goku", 1, 12, 150, 100, controle, is_facing_right)
         tamanho_desejado = (100, 100)
         base_path = os.path.join(game_base_path, 'Sprites', 'Goku_ssj2')
-        self.sprites_andar = carregar_sprites(os.path.join(base_path, 'andando'), tamanho_desejado)
-        self.sprites_voar = carregar_sprites(os.path.join(base_path, 'voando'), tamanho_desejado)
-        self.sprites_pousar = carregar_sprites(os.path.join(base_path, 'pousando'), tamanho_desejado)
-        self.sprites_ataque = carregar_sprites(os.path.join(base_path, 'atacando'), tamanho_desejado)
-        self.sprites_especial = carregar_sprites(os.path.join(base_path, 'especial'), tamanho_desejado)
-        self.sprites_vitoria = carregar_sprites(os.path.join(base_path, 'vitoria'), tamanho_desejado)
-        self.normal = carregar_sprites(os.path.join(base_path, 'normal'), tamanho_desejado)
-        self.projetil_img = pygame.image.load(os.path.join(base_path, 'kamehameha.png')).convert_alpha()
+        self.sprites_andar = carregar_sprites(
+            os.path.join(base_path, 'andando'), tamanho_desejado)
+        self.sprites_voar = carregar_sprites(
+            os.path.join(base_path, 'voando'), tamanho_desejado)
+        self.sprites_pousar = carregar_sprites(
+            os.path.join(base_path, 'pousando'), tamanho_desejado)
+        self.sprites_ataque = carregar_sprites(
+            os.path.join(base_path, 'atacando'), tamanho_desejado)
+        self.sprites_especial = carregar_sprites(
+            os.path.join(base_path, 'especial'), tamanho_desejado)
+        self.sprites_vitoria = carregar_sprites(
+            os.path.join(base_path, 'vitoria'), tamanho_desejado)
+        self.normal = carregar_sprites(os.path.join(
+            base_path, 'normal'), tamanho_desejado)
+        self.projetil_img = pygame.image.load(os.path.join(
+            base_path, 'kamehameha.png')).convert_alpha()
         self.projetil_img = pygame.transform.scale(self.projetil_img, (int(self.projetil_img.get_width() * 0.5),
                                                                        int(self.projetil_img.get_height() * 0.5)))
         self.tempo_ataque_duracao = 800
+
+
+class Picollo(Person):
+    def __init__(self, x, y, controle='setas', is_facing_right=True):
+        super().__init__(x, y, "Picollo", 1, 12, 150, 100, controle, is_facing_right)
+        tamanho_desejado = (90, 90)
+        base_path = os.path.join(game_base_path, 'Sprites', 'Picollo')
+        self.sprites_andar = carregar_sprites(os.path.join(
+            base_path, 'movimentacao'), tamanho_desejado)
+        self.sprites_voar = carregar_sprites(
+            os.path.join(base_path, 'voando'), tamanho_desejado)
+        self.sprites_pousar = carregar_sprites(
+            os.path.join(base_path, 'pousando'), tamanho_desejado)
+        self.sprites_ataque = carregar_sprites(
+            os.path.join(base_path, 'atacando'), tamanho_desejado)
+        self.sprites_especial = carregar_sprites(
+            os.path.join(base_path, 'especial'), tamanho_desejado)
+        self.sprites_vitoria = carregar_sprites(
+            os.path.join(base_path, 'vitoria'), tamanho_desejado)
+        self.normal = carregar_sprites(os.path.join(
+            base_path, 'normal'), tamanho_desejado)
+
+        # Carregar o projétil e reduzir seu tamanho pela metade
+        self.projetil_img = pygame.image.load(os.path.join(
+            base_path, 'makankosapo.png')).convert_alpha()
+        self.projetil_img = pygame.transform.scale(self.projetil_img, (int(self.projetil_img.get_width() * 0.25),
+                                                                       int(self.projetil_img.get_height() * 0.25)))
+
+    def atualizar_projetil(self, tela):
+        """
+        Exibe o projétil do ataque especial do Piccolo em uma posição ajustada.
+        """
+        if self.ataque_especial_ativo and self.projetil_img:
+            if self.estado == 'especial' and self.animacao_index >= len(self.sprites_especial) - 1:
+                if self.is_facing_right:
+                    pos_x = self.rect.right - 6
+                else:
+                    pos_x = self.rect.left - self.projetil_img.get_width() + 10
+                
+                # Ajustar a posição Y para ficar mais alto
+                pos_y = self.rect.y + (self.rect.height - self.projetil_img.get_height()) // 2 - 20  # Ajuste para ficar mais alto
+
+                # Exibir o projétil
+                if not self.is_facing_right:
+                    proj_img = pygame.transform.flip(self.projetil_img, True, False)
+                    tela.blit(proj_img, (pos_x, pos_y))
+                else:
+                    tela.blit(self.projetil_img, (pos_x, pos_y))

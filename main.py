@@ -1,7 +1,7 @@
 import pygame
 import os
 from colisoes_combate import ColisoesCombate
-from personagens import Vegeta, Goku
+from personagens import Vegeta, Goku, Picollo
 from sys import exit
 import time
 
@@ -25,16 +25,20 @@ def selecionar_personagens():
     base_path = os.path.dirname(__file__)
     goku_img_path = os.path.join(base_path, "Sprites", "Goku_ssj2", "GokuMenu.png")
     vegeta_img_path = os.path.join(base_path, "Sprites", "vegeta_ssj2", "VegetaMenu.png")
+    picollo_img_path = os.path.join(base_path, "Sprites", "Picollo", "PicolloMenu.png")
+
     goku_img = pygame.image.load(goku_img_path)
     vegeta_img = pygame.image.load(vegeta_img_path)
+    picollo_img = pygame.image.load(picollo_img_path)
 
     largura_imagem = largura // 6
     altura_imagem = altura // 3
     goku_img = pygame.transform.scale(goku_img, (largura_imagem, altura_imagem))
     vegeta_img = pygame.transform.scale(vegeta_img, (largura_imagem, altura_imagem))
-
+    picollo_img =pygame.transform.scale(picollo_img,(largura_imagem, altura_imagem) )
     goku_rect = goku_img.get_rect(center=(300, 360))
     vegeta_rect = vegeta_img.get_rect(center=(780, 360))
+    picollo_rect = picollo_img.get_rect(center=( 540, 360))
 
     fonte = pygame.font.Font(None, 50)
     instrucoes_texto = fonte.render("Player 1: Clique para escolher!", True, (255, 255, 255))
@@ -51,6 +55,8 @@ def selecionar_personagens():
         tela.blit(instrucoes_texto, instrucoes_rect)
         tela.blit(goku_img, goku_rect)
         tela.blit(vegeta_img, vegeta_rect)
+        tela.blit(picollo_img, picollo_rect)
+
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -71,6 +77,14 @@ def selecionar_personagens():
                         instrucoes_texto = fonte.render("Player 2: Clique para escolher!", True, (255, 255, 255))
                     elif player_atual == 2:
                         player2_escolhido = Vegeta(700, 550, controle='setas', is_facing_right=False)
+
+                elif picollo_rect.collidepoint(event.pos):
+                    if player_atual == 1:
+                        player1_escolhido = Picollo(350, 550, controle='wasd')
+                        player_atual = 2
+                        instrucoes_texto = fonte.render("Player 2: Clique para escolher!", True, (255, 255, 255))
+                    elif player_atual == 2:
+                     player2_escolhido = Picollo(700, 550, controle='setas', is_facing_right=False)
 
         if player1_escolhido and player2_escolhido:
             return player1_escolhido, player2_escolhido
