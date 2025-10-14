@@ -1,4 +1,4 @@
-Este trabalho foi feito por Wallace V. Rosa - Programação Modular - UFSJ - Professor: Vinicius Humberto Durelli
+Este trabalho foi feito por mim, Wallace Rosa, disciplina: -  Programação Modular - UFSJ - Professor: Vinicius Humberto Durelli
 
 -Para Jogar você deve ter instalado a biblioteca pygame.
 -O executável do jogo é o arquivo menu.
