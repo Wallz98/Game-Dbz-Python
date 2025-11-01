@@ -37,14 +37,18 @@ https://github.com/baraltech/Menu-System-PyGame
 
 Background: 
 https://www.tumblr.com/the2dstagesfg/646086637616611328/tenkaichi-budokai-from-hyper-dragon-ball-z
+“Namek Destroyed” from Dragon Ball Z (Arcade) credits: (Banpresto/1993) - https://www.tumblr.com/the2dstagesfg/693693965646610432/tenkaichi-budokai-from-dragon-ball-z-2-super?source=share
+
 
 SoundTrack: 
 Menu Song Theme: https://www.youtube.com/watch?v=0VmYKE4-HcM
 Figth Theme: https://www.youtube.com/watch?v=dpkzDExTBuw
+Prologue Theme: https://www.youtube.com/watch?v=S31jhQILtns
+
 
 
 EN : 
-This work was made by Wallace V. Rosa - Modular Programming - UFSJ - Professor: Vinicius Humberto Durelli
+This work was made by me Wallace V. Rosa - Modular Programming - UFSJ - Teacher: Vinicius Humberto Durelli
 
 -To play you must have the pygame library installed.
 -The game's executable is the menu file.
