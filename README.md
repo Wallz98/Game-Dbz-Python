@@ -21,9 +21,9 @@ Cada personagem possui **sprites e poderes únicos**, e cada fase possui **trilh
 
 ## 🖼️ Screenshots
 <p align="center">
-  <img src="photos/Screenshot1.png?raw=true" alt="Screenshot 1" width="280">
-  <img src="photos/Screenshot2.png?raw=true" alt="Screenshot 2" width="280">
-  <img src="photos/Screenshot3.png?raw=true" alt="Screenshot 3" width="280">
+  <img src="Photos/Screenshot1.png?raw=true" alt="Screenshot 1" width="280">
+  <img src="Photos/Screenshot2.png?raw=true" alt="Screenshot 2" width="280">
+  <img src="Photos/Screenshot3.png?raw=true" alt="Screenshot 3" width="280">
 </p>
 
 ---
