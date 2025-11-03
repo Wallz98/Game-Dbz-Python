@@ -114,7 +114,7 @@ class SimpleAI:
             self.personagem.ataque_especial_ativo = False
         # 🔹 IA causa dano 1.5x maior para compensar menos ataques
         self.personagem.dano_normal *= 1.0
-        self.personagem.dano_especial *= 1
+        self.personagem.dano_especial *= 1.3
     
 
     def _atualizar_estado_visual(self, tempo_atual):

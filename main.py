@@ -309,7 +309,7 @@ def start_game(player1, player2, fase_escolhida, use_ai=False):
                 pygame.mixer.music.stop()
             else:
                 # aguarda 3s de exibição e volta
-                if agora - tempo_vitoria >= 3000:
+                if agora - tempo_vitoria >= 300:
                     jogo_ativo = False
 
     # mostra vencedor com loop responsivo (evita travamento)
