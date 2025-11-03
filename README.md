@@ -1,7 +1,7 @@
 # 🐉 Dragon Ball Z - Battle of Python
 
 <p align="center">
-  <img src="photos/capa.png?raw=true" alt="Capa do jogo" width="600">
+  <img src="Photos/capa.png?raw=true" alt="Capa do jogo" width="600">
 </p>
 
 > Um jogo 2D estilo retrô feito em **Python + Pygame**, inspirado em *Dragon Ball Z*!  
